@@ -1,30 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { ServicioService } from './servicios/servicio.service';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
   standalone: true,
-  imports: [RouterOutlet],
-  template: '<h1>{{ greeting }}</h1>',
-  styleUrl: './app.component.css'
+  imports: [FormsModule, HttpClientModule] // Asegúrate de importar FormsModule y HttpClientModule
 })
-export class AppComponent implements OnInit
+export class AppComponent implements OnInit {
+  username: string = '';
+  password: string = '';
+  greeting: string = '';
 
-{
-  greeting!: string;
+  constructor(private servicioService: ServicioService) { }
 
-  constructor(private ServicioService: ServicioService){}
-  title = 'angular-frontend';
+  ngOnInit() { }
 
-  ngOnInit() {
-    this.ServicioService.getGreeting().subscribe(data => {
-      this.greeting = data;
-    });
+  onSubmit() {
+    // Aquí puedes agregar la lógica para autenticar al usuario
+    // Por ahora, simplemente llamaremos al servicio para obtener el saludo
+    this.servicioService.getGreeting().subscribe(
+      data => this.greeting = data,
+      error => console.error(error)
+    );
   }
-
-
-  
-
-  
 }
